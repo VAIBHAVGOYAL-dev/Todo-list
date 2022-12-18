@@ -1,0 +1,68 @@
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+{% block content %}
+<div>
+
+    <form id="searchForm" action="{% url 'todo_list' %}"   method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <select name="status" id="status">
+            <option value="all">All</option>
+            <option value="not_started">Not started</option>
+            <option value="progress">In Progress</option>
+            <option value="hold">On Hold</option>
+            <option value="completed">Completed</option>
+            <option value="not_completed">Not Completed</option>
+        </select>
+        <button > Filter </button>
+        <button><a href="{% url 'add_edit_task' %}"> ADD Task</a></button>
+    </form>
+
+
+</div>
+{% if data|length > 0 %}
+<div >
+    <table >
+        <tbody>
+
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>stuats</th>
+            <th>creted on</th>
+            <th>updated on</th>
+        </tr>
+
+        {% for row in data %}
+           <tr>
+               <td><a href="{% url 'add_edit_task_id' id=row.id %}">{{row.title}}</a></td>
+               <td>{{row.description}}</td>
+               <td>{{row.status}}</td>
+               <td>{{row.created}}</td>
+               <td>{{row.updated}}</td>
+           </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+</div>
+{% else %}
+            <p style="text-align:center;">No task found.Please modify your search.</p>
+
+        {% endif %}
+ {% endblock content %}

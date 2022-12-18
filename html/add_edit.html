@@ -1,0 +1,64 @@
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+</style>
+ {% if msz != '' %}
+    <p style="align:center;">{{msz}}</p>
+ {% endif %}
+<button><a href="{% url 'todo_list' %}">To-DO List</a></button>
+<div>
+
+    <form id="searchForm" action="{% url 'add_edit_task' %}"   method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{data.id}}">
+         <label for="title">Title:</label><br>
+          <input type="text" id="title" value="{{data.title}}" name="title"><br>
+          <label for="description">Description:</label><br>
+          <input type="text" id="description" value="{{data.description}}" name="description">
+        <label for="status">Status:</label><br>
+         <select name="status" id="status">
+
+            <option value="not_started" {% if data.status == 'not_started' %} selected {% endif %} >Not started</option>
+            <option value="progress" {% if data.status == 'progress' %} selected {% endif %}>In Progress</option>
+            <option value="hold" {% if data.status == 'hold' %} selected {% endif %}>On Hold</option>
+            <option value="completed" {% if data.status == 'completed' %} selected {% endif %}>Completed</option>
+
+        </select>
+        {% if data.id %}
+        <input type="submit" value="Update Task">
+        {% else %}
+        <input type="submit" value="Add Task">
+        {% endif %}
+
+    </form>
+
+
+</div>
